@@ -1,21 +1,28 @@
 <routes>
-    <!-- Тип машины: модель Krauss, ускорение, торможение -->
-    <vType id="std_car" accel="2.6" decel="4.5" sigma="0.5" length="5" minGap="2.5" maxSpeed="16.6" guiShape="passenger" carFollowModel="Krauss"/>
+    <vType id="std_car" accel="2.6" decel="4.5" length="5" maxSpeed="16.6" carFollowModel="Krauss"/>
 
-    <!-- Маршруты -->
-    <route id="route_NS" edges="n_to_c c_to_s"/>
-    <route id="route_SN" edges="s_to_c c_to_n"/>
-    <route id="route_WE" edges="w_to_c c_to_e"/>
-    <route id="route_EW" edges="e_to_c c_to_w"/>
+    <route id="NS" edges="n_to_c c_to_s"/>
+    <route id="SN" edges="s_to_c c_to_n"/>
+    <route id="WE" edges="w_to_c c_to_e"/>
+    <route id="EW" edges="e_to_c c_to_w"/>
 
-    <!-- ГЕНЕРАЦИЯ ПОТОКА (Исправлено) -->
+    <!-- БОКОВЫЕ (Фоновый поток, чтобы мешали) -->
+    <flow id="side_WE" type="std_car" route="WE" begin="0" end="10800" number="3000"/>
+    <flow id="side_EW" type="std_car" route="EW" begin="0" end="10800" number="3000"/>
     
-    <!-- Главная дорога: ПЛОТНО (каждые 2 секунды) -->
-    <!-- Убрали number="..." -->
-    <flow id="f_NS" type="std_car" route="route_NS" begin="0" end="3600" period="2"/>
-    <flow id="f_SN" type="std_car" route="route_SN" begin="0" end="3600" period="2"/>
+    <!-- === ГЛАВНАЯ ДОРОГА (КОЭФФИЦИЕНТ 0.75 ОТ I-94) === -->
+    
+    <!-- 9:00 - УТРО (4160 машин) -->
+    <flow id="real_9am_NS" type="std_car" route="NS" begin="0" end="3600" number="4160"/>
+    <!-- Встречку сделаем поменьше, чтобы имитировать маятниковую миграцию "в центр" -->
+    <flow id="real_9am_SN" type="std_car" route="SN" begin="0" end="3600" number="2500"/>
 
-    <!-- Второстепенная дорога: ПУСТО (каждые 20 секунд) -->
-    <flow id="f_WE" type="std_car" route="route_WE" begin="0" end="3600" period="20"/>
-    <flow id="f_EW" type="std_car" route="route_EW" begin="0" end="3600" period="20"/>
+    <!-- 10:00 - ДЕНЬ (3390 машин) -->
+    <flow id="real_10am_NS" type="std_car" route="NS" begin="3600" end="7200" number="3390"/>
+    <flow id="real_10am_SN" type="std_car" route="SN" begin="3600" end="7200" number="2000"/>
+
+    <!-- 11:00 - РОСТ (3575 машин) -->
+    <flow id="real_11am_NS" type="std_car" route="NS" begin="7200" end="10800" number="3575"/>
+    <flow id="real_11am_SN" type="std_car" route="SN" begin="7200" end="10800" number="2200"/>
+
 </routes>

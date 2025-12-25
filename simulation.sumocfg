@@ -6,6 +6,6 @@
     
     <time>
         <begin value="0"/>
-        <end value="1000"/>
+        <end value="10800"/>
     </time>
 </configuration>
